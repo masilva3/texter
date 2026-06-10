@@ -1,0 +1,81 @@
+{
+  "entities": {
+    "event": {
+      "title": "Event",
+      "description": "Represents an operating competition event",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique event identifier" },
+        "organizacaoId": { "type": "string", "description": "Organization owner identifier" },
+        "nome": { "type": "string", "description": "Name of the event" },
+        "local": { "type": "string", "description": "Location of the venue" },
+        "data": { "type": "string", "format": "date", "description": "Date of the event" },
+        "status": { "type": "string", "enum": ["preparacao", "ativo", "encerrado"], "description": "Workflow phase" }
+      },
+      "required": ["id", "organizacaoId", "nome", "local", "data", "status"]
+    },
+    "score": {
+      "title": "Score",
+      "description": "A juror's evaluation of a competitor",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique evaluation item identifier" },
+        "eventoId": { "type": "string", "description": "Target event identifier" },
+        "categoryId": { "type": "string", "description": "Target category identifier" },
+        "participanteId": { "type": "string", "description": "Evaluated contestant's identifier" },
+        "juradoId": { "type": "string", "description": "Juror identity" },
+        "comentario": { "type": "string", "description": "General text critique" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "ISO execution date" },
+        "dispositivoInfo": { "type": "string", "description": "Agent fingerprint" }
+      },
+      "required": ["id", "eventoId", "categoryId", "participanteId", "juradoId", "timestamp"]
+    },
+    "stageState": {
+      "title": "StageState",
+      "description": "Active global stage visualization synchronization",
+      "type": "object",
+      "properties": {
+        "currentEventId": { "type": "string" },
+        "currentCategoryId": { "type": "string" },
+        "currentParticipantId": { "type": "string" },
+        "screenState": { "type": "string" },
+        "timerCount": { "type": "number" },
+        "timerActive": { "type": "boolean" },
+        "scoreRevealIndex": { "type": "number" }
+      },
+      "required": ["currentEventId", "currentCategoryId", "screenState", "timerCount", "timerActive"]
+    },
+    "auditLog": {
+      "title": "AuditLog",
+      "description": "Indelible log entry for transparency and operations tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "usuario": { "type": "string" },
+        "papel": { "type": "string" },
+        "acao": { "type": "string" },
+        "detalhes": { "type": "string" }
+      },
+      "required": ["id", "timestamp", "usuario", "papel", "acao", "detalhes"]
+    }
+  },
+  "firestore": {
+    "/events/{eventId}": {
+      "schema": "event",
+      "description": "Active configuration of live events"
+    },
+    "/scores/{scoreId}": {
+      "schema": "score",
+      "description": "Lock-closed juror evaluations"
+    },
+    "/stageState/{docId}": {
+      "schema": "stageState",
+      "description": "Unified stage telemetry"
+    },
+    "/auditLogs/{logId}": {
+      "schema": "auditLog",
+      "description": "Secure record of administrative and jury events"
+    }
+  }
+}

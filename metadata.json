@@ -1,0 +1,6 @@
+{
+  "name": "Senpai Score",
+  "description": "Sistema operacional e de pontuação em tempo real para concursos de Cosplay, K-pop e apresentações de palco.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
